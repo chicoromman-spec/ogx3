@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MASTER ALL LANES — Chico OGX3 Operating Board</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#D4AF37;--gold2:#AA8A2E;--ink:#050508;--line:rgba(212,175,55,.22)}
+body{background:var(--ink);color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--gold);text-decoration:none}
+nav{padding:26px 20px 0;text-align:center}
+nav a{margin:0 11px;font-family:'Orbitron';font-size:11.5px;letter-spacing:2px;opacity:.85}
+nav a:hover{opacity:1}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* HERO */
+.hero{position:relative;min-height:92vh;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:30px;padding:60px 24px 50px;max-width:1180px;margin:0 auto}
+@media(max-width:880px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:34px}}
+.eyebrow{font-family:'Orbitron';font-size:10.5px;letter-spacing:5px;color:var(--gold);opacity:.8;margin-bottom:22px}
+h1{font-family:'Orbitron';font-weight:900;font-size:clamp(38px,7.4vw,88px);line-height:.94;letter-spacing:-1px}
+h1 .w{color:#fff}
+h1 .g{color:var(--gold);text-shadow:0 0 60px rgba(212,175,55,.35)}
+.thesis{margin-top:26px;font-size:16.5px;line-height:1.75;color:rgba(255,255,255,.72);max-width:560px;border-left:2px solid var(--gold);padding-left:20px}
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:30px}
+.pill{font-family:'Orbitron';font-size:9.8px;letter-spacing:2.2px;padding:9px 15px;border:1px solid var(--line);border-radius:40px;color:rgba(255,255,255,.75);white-space:nowrap}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.heroart{position:relative;display:flex;align-items:center;justify-content:center}
+.metatron{width:100%;max-width:470px;overflow:visible}
+.metatron .lines line{stroke:var(--gold);stroke-width:.6;opacity:.38}
+.metatron .rings circle{fill:none;stroke:var(--gold);stroke-width:.9;opacity:.55}
+.metatron .orbit{fill:none;stroke:var(--gold);stroke-width:.7;stroke-dasharray:2 7;opacity:.5}
+.metatron .node{fill:var(--gold)}
+.spin{transform-origin:0 0;animation:spin 150s linear infinite}
+.counter{transform-origin:0 0;animation:spin 90s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SECTIONS */
+section{padding:70px 0;border-top:1px solid rgba(255,255,255,.05)}
+.sec-h{display:flex;align-items:baseline;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+.sec-n{font-family:'Orbitron';font-size:11px;color:var(--gold);letter-spacing:3px;opacity:.7}
+h2{font-family:'Orbitron';font-size:clamp(20px,3vw,30px);letter-spacing:1.5px;font-weight:700}
+.lede{font-size:16px;line-height:1.8;color:rgba(255,255,255,.66);max-width:760px}
+
+/* SPINE */
+.spine{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;margin-top:14px}
+@media(max-width:880px){.spine{grid-template-columns:1fr}}
+.card{background:linear-gradient(160deg,rgba(212,175,55,.07),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:18px;padding:28px}
+.card h3{font-family:'Orbitron';font-size:13px;letter-spacing:2.5px;color:var(--gold);margin-bottom:14px}
+.card p{font-size:14.5px;line-height:1.8;color:rgba(255,255,255,.7)}
+.heart{margin-top:20px;height:60px;width:100%}
+.heart path{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-dasharray:640;stroke-dashoffset:640;animation:beat 4.6s ease-in-out infinite}
+@keyframes beat{0%{stroke-dashoffset:640}55%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
+.formula{font-family:'Orbitron';font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.55);margin-top:18px}
+.formula b{color:var(--gold)}
+
+/* AXIS */
+.axis{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
+@media(max-width:880px){.axis{grid-template-columns:1fr}}
+.side{border-radius:20px;padding:30px;border:1px solid var(--line);position:relative;overflow:hidden}
+.side.fire{background:linear-gradient(150deg,rgba(212,175,55,.13),rgba(120,40,10,.07))}
+.side.ice{background:linear-gradient(150deg,rgba(120,160,255,.09),rgba(255,255,255,.015))}
+.side .tag{font-family:'Orbitron';font-size:10px;letter-spacing:4px;opacity:.7;margin-bottom:8px}
+.side.fire .tag{color:#FFC861}
+.side.ice .tag{color:#9FB8E4}
+.side h3{font-family:'Orbitron';font-size:22px;letter-spacing:2px;margin-bottom:20px}
+.side ul{list-style:none}
+.side li{font-size:13.8px;line-height:1.7;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:11px;align-items:flex-start;color:rgba(255,255,255,.76)}
+.side li:last-child{border-bottom:none}
+.side li::before{content:"";flex:0 0 5px;height:5px;border-radius:50%;margin-top:8px;background:var(--gold);opacity:.75}
+.side.ice li::before{background:#9FB8E4}
+
+/* NUMBERS */
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:8px}
+.num{background:#0A0A10;padding:26px 18px;text-align:center}
+.num .v{font-family:'Orbitron';font-size:30px;font-weight:700;color:var(--gold);line-height:1}
+.num .k{font-family:'Orbitron';font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.5);margin-top:10px;text-transform:uppercase}
+.num .s{font-size:10.5px;color:rgba(255,255,255,.34);margin-top:6px;line-height:1.5}
+.subhead{font-family:'Orbitron';font-size:10.5px;letter-spacing:3.5px;color:rgba(255,255,255,.45);margin:34px 0 12px}
+
+/* MASTERED */
+.mastered{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:12px}
+.step{background:#0A0A10;border:1px solid var(--line);border-radius:14px;padding:22px}
+.step .n{font-family:'Orbitron';font-size:10px;color:var(--gold);letter-spacing:3px;opacity:.8}
+.step h4{font-family:'Orbitron';font-size:14px;letter-spacing:1px;margin:10px 0 8px}
+.step p{font-size:12.8px;color:rgba(255,255,255,.6);line-height:1.65}
+
+/* LANE BOARD */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:10px}
+.lane{background:#0A0A10;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px 22px;transition:border-color .3s,transform .3s}
+.lane:hover{border-color:var(--line);transform:translateY(-2px)}
+.lane .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.lane h4{font-family:'Orbitron';font-size:13.5px;letter-spacing:1px}
+.lane p{font-size:12.6px;color:rgba(255,255,255,.55);line-height:1.65;margin-top:9px}
+.dot{font-family:'Orbitron';font-size:8.5px;letter-spacing:1.6px;padding:5px 9px;border-radius:20px;white-space:nowrap;border:1px solid}
+.dot.live{color:#7BE49B;border-color:rgba(123,228,155,.4);background:rgba(123,228,155,.09)}
+.dot.armed{color:#FFC861;border-color:rgba(255,200,97,.4);background:rgba(255,200,97,.09)}
+.dot.blk{color:#E88B8B;border-color:rgba(232,139,139,.4);background:rgba(232,139,139,.09)}
+
+footer{border-top:1px solid rgba(212,175,55,.15);padding:44px 24px 60px;text-align:center}
+footer .f{font-family:'Orbitron';font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.35)}
+footer .links{margin-top:18px;font-size:12.5px;line-height:2.1}
+.note{font-size:11.5px;color:rgba(255,255,255,.32);line-height:1.7;max-width:760px;margin:22px auto 0;text-align:center}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<nav>
+<a href="index.html">HOME</a><a href="master.html">MASTER</a><a href="ubg.html">U.B.G</a><a href="enochtu.html">ENOCHTU</a><a href="shop.html">SHOP</a><a href="contests.html">CONTESTS</a><a href="epk.html">PRESS KIT</a>
+</nav>
+
+<div class="hero">
+<div>
+<div class="eyebrow">IAM ME ENTERTAINMENT — OPERATING BOARD</div>
+<h1><span class="w">MASTER</span><br><span class="g">ALL LANES.</span></h1>
+<div class="thesis">"Not just Afropunk — in every genre. We want to be masters of this. Something that will generate us wealth until the end of time."<br><br>One core sound is the spine. Every lane ties back to the center and feeds the next. Nothing stands alone.</div>
+<div class="pills">
+<span class="pill on">FIRE SIDE — THE PUSH</span>
+<span class="pill">ICE SIDE — THE PATIENCE</span>
+<span class="pill on">CORE SOUND = THE SPINE</span>
+</div>
+</div>
+<div class="heroart"><svg viewBox="-300 -300 600 600" class="metatron" aria-label="Metatron's Cube, drawn as pure geometry">
+<defs>
+<radialGradient id="coreglow" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#D4AF37" stop-opacity="0.55"/>
+<stop offset="60%" stop-color="#D4AF37" stop-opacity="0.06"/>
+<stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<circle cx="0" cy="0" r="295" fill="url(#coreglow)"/>
+<g class="spin">
+<g class="lines"><line x1="0.00" y1="0.00" x2="104.00" y2="0.00" /><line x1="0.00" y1="0.00" x2="52.00" y2="90.07" /><line x1="0.00" y1="0.00" x2="-52.00" y2="90.07" /><line x1="0.00" y1="0.00" x2="-104.00" y2="0.00" /><line x1="0.00" y1="0.00" x2="-52.00" y2="-90.07" /><line x1="0.00" y1="0.00" x2="52.00" y2="-90.07" /><line x1="0.00" y1="0.00" x2="180.13" y2="0.00" /><line x1="0.00" y1="0.00" x2="90.07" y2="156.00" /><line x1="0.00" y1="0.00" x2="-90.07" y2="156.00" /><line x1="0.00" y1="0.00" x2="-180.13" y2="0.00" /><line x1="0.00" y1="0.00" x2="-90.07" y2="-156.00" /><line x1="0.00" y1="0.00" x2="90.07" y2="-156.00" /><line x1="104.00" y1="0.00" x2="52.00" y2="90.07" /><line x1="104.00" y1="0.00" x2="-52.00" y2="90.07" /><line x1="104.00" y1="0.00" x2="-104.00" y2="0.00" /><line x1="104.00" y1="0.00" x2="-52.00" y2="-90.07" /><line x1="104.00" y1="0.00" x2="52.00" y2="-90.07" /><line x1="104.00" y1="0.00" x2="180.13" y2="0.00" /><line x1="104.00" y1="0.00" x2="90.07" y2="156.00" /><line x1="104.00" y1="0.00" x2="90.07" y2="-156.00" /><line x1="52.00" y1="90.07" x2="-52.00" y2="90.07" /><line x1="52.00" y1="90.07" x2="-104.00" y2="0.00" /><line x1="52.00" y1="90.07" x2="-52.00" y2="-90.07" /><line x1="52.00" y1="90.07" x2="52.00" y2="-90.07" /><line x1="52.00" y1="90.07" x2="180.13" y2="0.00" /><line x1="52.00" y1="90.07" x2="90.07" y2="156.00" /><line x1="52.00" y1="90.07" x2="-90.07" y2="156.00" /><line x1="-52.00" y1="90.07" x2="-104.00" y2="0.00" /><line x1="-52.00" y1="90.07" x2="-52.00" y2="-90.07" /><line x1="-52.00" y1="90.07" x2="52.00" y2="-90.07" /><line x1="-52.00" y1="90.07" x2="90.07" y2="156.00" /><line x1="-52.00" y1="90.07" x2="-90.07" y2="156.00" /><line x1="-52.00" y1="90.07" x2="-180.13" y2="0.00" /><line x1="-104.00" y1="0.00" x2="-52.00" y2="-90.07" /><line x1="-104.00" y1="0.00" x2="52.00" y2="-90.07" /><line x1="-104.00" y1="0.00" x2="-90.07" y2="156.00" /><line x1="-104.00" y1="0.00" x2="-180.13" y2="0.00" /><line x1="-104.00" y1="0.00" x2="-90.07" y2="-156.00" /><line x1="-52.00" y1="-90.07" x2="52.00" y2="-90.07" /><line x1="-52.00" y1="-90.07" x2="-180.13" y2="0.00" /><line x1="-52.00" y1="-90.07" x2="-90.07" y2="-156.00" /><line x1="-52.00" y1="-90.07" x2="90.07" y2="-156.00" /><line x1="52.00" y1="-90.07" x2="180.13" y2="0.00" /><line x1="52.00" y1="-90.07" x2="-90.07" y2="-156.00" /><line x1="52.00" y1="-90.07" x2="90.07" y2="-156.00" /><line x1="180.13" y1="0.00" x2="90.07" y2="156.00" /><line x1="180.13" y1="0.00" x2="90.07" y2="-156.00" /><line x1="90.07" y1="156.00" x2="-90.07" y2="156.00" /><line x1="-90.07" y1="156.00" x2="-180.13" y2="0.00" /><line x1="-180.13" y1="0.00" x2="-90.07" y2="-156.00" /><line x1="-90.07" y1="-156.00" x2="90.07" y2="-156.00" /></g>
+<g class="rings"><circle cx="0.00" cy="0.00" r="52" /><circle cx="104.00" cy="0.00" r="52" /><circle cx="52.00" cy="90.07" r="52" /><circle cx="-52.00" cy="90.07" r="52" /><circle cx="-104.00" cy="0.00" r="52" /><circle cx="-52.00" cy="-90.07" r="52" /><circle cx="52.00" cy="-90.07" r="52" /><circle cx="180.13" cy="0.00" r="52" /><circle cx="90.07" cy="156.00" r="52" /><circle cx="-90.07" cy="156.00" r="52" /><circle cx="-180.13" cy="0.00" r="52" /><circle cx="-90.07" cy="-156.00" r="52" /><circle cx="90.07" cy="-156.00" r="52" /></g>
+</g>
+<g class="counter">
+<circle cx="0" cy="0" r="180.13" class="orbit"/>
+<circle cx="0" cy="0" r="104.00" class="orbit inner"/>
+<circle cx="0" cy="0" r="3" class="node"/>
+</g>
+</svg></div>
+</div>
+
+<section>
+<div class="wrap reveal">
+<div class="sec-h"><span class="sec-n">00</span><h2>THE SPINE</h2></div>
+<div class="spine">
+<div class="card">
+<h3>FAITH &gt; FEAR</h3>
+<p>Every lane is a door into the same house. The spine is the core sound: testimony over trap, the storm breaking into sunrise, the geometry that holds it together. A lane without the spine is just a genre exercise. With it, every release feeds the next one.</p>
+<div class="formula">33 TRACKS = <b>33 CHAPTERS</b> • ONE STORYLINE</div>
+</div>
+<div class="card">
+<h3>THE HEARTBEAT</h3>
+<p>The rhythm the catalog is built on. Faith beating louder than fear, once per bar, on every lane.</p>
+<svg class="heart" viewBox="0 0 640 60" preserveAspectRatio="none" aria-hidden="true">
+<path d="M0 32 H150 L166 32 L176 12 L188 50 L200 32 H320 L336 32 L346 8 L358 54 L370 32 H640"/>
+</svg>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap reveal">
+<div class="sec-h"><span class="sec-n">01</span><h2>THE AXIS</h2></div>
+<p class="lede" style="margin-bottom:26px">Every move in the system belongs to one of two sides. It either pushes, or it waits and compounds. Confusing the two is how artists burn out chasing one number.</p>
+<div class="axis">
+<div class="side fire">
+<div class="tag">FIRE SIDE</div>
+<h3>THE PUSH</h3>
+<ul>
+<li>Releases through ROC Nation Distro — 23 delivered, 33 tracks across the double album</li>
+<li>Radio lane — seven verified stations plus Rapzilla's submission feature</li>
+<li>Genesis Day — the monthly reveal beat, first of every month</li>
+<li>Atlantis Eye — weekly discovery layer feeding the Enochtu funnel</li>
+<li>Contests — Friday giveaways through Nov 13, finale Nov 15</li>
+<li>LinkedIn and X — LinkedIn free and unmetered, X reserved for flagship beats</li>
+</ul>
+</div>
+<div class="side ice">
+<div class="tag">ICE SIDE</div>
+<h3>THE PATIENCE</h3>
+<ul>
+<li>The 33-chapter catalog — the asset everything else points back to</li>
+<li>Inner Circle list building — the only audience actually owned</li>
+<li>Curator lanes — Spanish Christian, Black anime, anime lofi</li>
+<li>Sync licensing — routes being verified before a single pitch</li>
+<li>YouTube visualizers — channel kit built, launch pending</li>
+<li>Long-tail pages — U.B.G, Enochtu, one-sheet, all indexed and permanent</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap reveal">
+<div class="sec-h"><span class="sec-n">02</span><h2>THE NUMBERS</h2></div>
+<div class="subhead">BOARD SCALE</div>
+<div class="nums">
+<div class="num"><div class="v">43</div><div class="k">Forge Styles</div><div class="s">Full rollout map, ongoing cadence</div></div>
+<div class="num"><div class="v">46</div><div class="k">Parseable Lanes</div><div class="s">27 featured on the lane board</div></div>
+<div class="num"><div class="v">322</div><div class="k">Template Lines</div><div class="s">One prompt pack per lane</div></div>
+<div class="num"><div class="v">9+5</div><div class="k">Mood-Spice</div><div class="s">Families and demos</div></div>
+<div class="num"><div class="v">5</div><div class="k">Demos</div><div class="s">Re-minted, tagged DNA GENUINE</div></div>
+</div>
+<div class="subhead">VERIFIED PERFORMANCE — OCTOBER 2026, DASHBOARD PULLED NOV 1</div>
+<div class="nums">
+<div class="num"><div class="v">847</div><div class="k">Streams</div><div class="s">One month, all platforms</div></div>
+<div class="num"><div class="v">119</div><div class="k">U.B.G</div><div class="s">#1 of 33 tracks</div></div>
+<div class="num"><div class="v">20%</div><div class="k">From Radio</div><div class="s">Not a playlist story</div></div>
+<div class="num"><div class="v">18%</div><div class="k">TV + Console</div><div class="s">Visuals matter here</div></div>
+<div class="num"><div class="v">23</div><div class="k">Releases</div><div class="s">Live on ROC Nation Distro</div></div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap reveal">
+<div class="sec-h"><span class="sec-n">03</span><h2>MASTERED</h2></div>
+<p class="lede" style="margin-bottom:24px">The board's definition of mastery, translated into the engine that actually ships it.</p>
+<div class="mastered">
+<div class="step"><div class="n">01</div><h4>PROVEN BEAT</h4><p>A campaign kit with verified numbers behind it — not a feeling, a dashboard pull.</p></div>
+<div class="step"><div class="n">02</div><h4>FINISHED CUT</h4><p>The visualizer, the one-sheet, the funnel page, the pitch. All of it existing at once.</p></div>
+<div class="step"><div class="n">03</div><h4>A ROUTE</h4><p>A verified way in — a station address, an outlet, a curator, a sync library. No guessing.</p></div>
+<div class="step"><div class="n">04</div><h4>THE NEXT LANE</h4><p>Every mastered lane feeds one more. Nothing stands alone, including success.</p></div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap reveal">
+<div class="sec-h"><span class="sec-n">04</span><h2>THE LANE BOARD</h2></div>
+<p class="lede" style="margin-bottom:26px">Lanes currently live inside the machine. Status is honest: live means running, armed means built and waiting on one unlock, blocked names the unlock.</p>
+<div class="lanes">
+<div class="lane"><div class="top"><h4>U.B.G FLAGSHIP</h4><span class="dot live">LIVE</span></div><p>Top track of 33. Door page, one-sheet, smart link and story all live.</p></div>
+<div class="lane"><div class="top"><h4>GENESIS DAY</h4><span class="dot live">LIVE</span></div><p>Monthly reveal on the 1st. Runs on its own schedule.</p></div>
+<div class="lane"><div class="top"><h4>ATLANTIS EYE</h4><span class="dot live">LIVE</span></div><p>Weekly discovery layer, bridges into the Enochtu world.</p></div>
+<div class="lane"><div class="top"><h4>BLACK ANIME</h4><span class="dot live">LIVE</span></div><p>Engagement lane with real creators and one peer studio. Story before label, always.</p></div>
+<div class="lane"><div class="top"><h4>INNER CIRCLE</h4><span class="dot live">LIVE</span></div><p>The only owned audience. Every page routes here.</p></div>
+<div class="lane"><div class="top"><h4>RADIO</h4><span class="dot armed">ARMED</span></div><p>Seven verified stations and Rapzilla. Unlock: email route connected, plus MP3 and YouTube link for Rapzilla.</p></div>
+<div class="lane"><div class="top"><h4>SPANISH CHRISTIAN</h4><span class="dot armed">ARMED</span></div><p>Five curator targets, pitch written in Spanish. Same unlock as radio.</p></div>
+<div class="lane"><div class="top"><h4>ANIME LOFI</h4><span class="dot armed">ARMED</span></div><p>Submission communities mapped. Fires with the same email route.</p></div>
+<div class="lane"><div class="top"><h4>YOUTUBE</h4><span class="dot armed">ARMED</span></div><p>Brand account kit built: banner, avatar, about, first three uploads. Unlock: launch and upload.</p></div>
+<div class="lane"><div class="top"><h4>SYNC LICENSING</h4><span class="dot blk">UNVERIFIED</span></div><p>Routes could not be confirmed at source. Not pitched until they can be. No guessing.</p></div>
+</div>
+<p class="note">The 43 forge styles, 46 lanes, 322 template lines, mood-spice families and DNA GENUINE demos are from the Master All Lanes board. The full lane list is pending export, so no lane names were invented here. Performance figures are dashboard-verified and dated. Chico OGX3 is an independent artist on I AM ME ENTERTAINMENT LLC, distributed through ROC Nation Distro. No affiliation with any other label, studio, or platform is claimed.</p>
+</div>
+</section>
+
+<footer>
+<div class="f">TESTIMONY OVER TRAP • 33 TRACKS • ONE STORYLINE</div>
+<div class="links">
+<a href="index.html">Site</a> &nbsp;·&nbsp; <a href="ubg.html">U.B.G</a> &nbsp;·&nbsp; <a href="enochtu.html">Enochtu</a> &nbsp;·&nbsp; <a href="onesheet.html">One-Sheet</a> &nbsp;·&nbsp; <a href="epk.html">Press Kit</a>
+</div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
