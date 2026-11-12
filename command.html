@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OGX3 Command Center — Nine Tools</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#D4AF37;--gold2:#AA8A2E;--ink:#050508;--line:rgba(212,175,55,.22);--panel:#0A0A10}
+body{background:var(--ink);color:#fff;font-family:'Inter',sans-serif;padding-bottom:60px}
+nav{padding:24px 18px 0;text-align:center}
+nav a{color:var(--gold);text-decoration:none;margin:0 10px;font-family:'Orbitron';font-size:11px;letter-spacing:2px;opacity:.8}
+.wrap{max-width:1150px;margin:0 auto;padding:0 20px}
+header{text-align:center;padding:44px 20px 30px}
+.eyebrow{font-family:'Orbitron';font-size:10px;letter-spacing:4px;color:var(--gold);opacity:.75}
+h1{font-family:'Orbitron';font-weight:900;font-size:clamp(26px,5vw,46px);letter-spacing:1px;margin-top:14px}
+h1 span{color:var(--gold)}
+.sub{color:rgba(255,255,255,.55);font-size:13.5px;margin-top:12px;line-height:1.7;max-width:640px;margin-left:auto;margin-right:auto}
+.statuses{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:20px}
+.sp{font-family:'Orbitron';font-size:8.5px;letter-spacing:1.6px;padding:6px 11px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6)}
+.sp.ok{color:#7BE49B;border-color:rgba(123,228,155,.35);background:rgba(123,228,155,.07)}
+.sp.block{color:#E88B8B;border-color:rgba(232,139,139,.35);background:rgba(232,139,139,.07)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:34px}
+.tool{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;cursor:pointer;transition:.25s}
+.tool:hover{border-color:var(--line);transform:translateY(-2px)}
+.tool .n{font-family:'Orbitron';font-size:9px;letter-spacing:2px;color:var(--gold);opacity:.7}
+.tool h3{font-family:'Orbitron';font-size:13.5px;margin:9px 0 7px;letter-spacing:.5px}
+.tool p{font-size:12.3px;color:rgba(255,255,255,.5);line-height:1.6}
+.tool.open{border-color:var(--gold);grid-column:1/-1}
+.panel{display:none;margin-top:18px;border-top:1px solid rgba(255,255,255,.08);padding-top:18px}
+.tool.open .panel{display:block}
+label{display:block;font-family:'Orbitron';font-size:9px;letter-spacing:1.8px;color:rgba(255,255,255,.5);margin:14px 0 6px}
+input,textarea,select{width:100%;background:#101018;border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:11px 13px;color:#fff;font-family:'Inter';font-size:13.5px}
+textarea{min-height:74px;resize:vertical;line-height:1.6}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
+button{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:9px;padding:11px 22px;font-family:'Orbitron';font-size:10.5px;letter-spacing:1.5px;font-weight:700;cursor:pointer;margin-top:14px}
+button.ghost{background:transparent;color:var(--gold);border:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+.check{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}
+.check input{width:18px;height:18px;flex:0 0 18px;margin-top:2px;accent-color:var(--gold)}
+.check span{font-size:13.2px;line-height:1.6;color:rgba(255,255,255,.78)}
+.out{margin-top:16px;background:#0d0d14;border:1px solid var(--line);border-radius:11px;padding:16px;font-size:13px;line-height:1.75;white-space:pre-wrap;color:rgba(255,255,255,.85);display:none}
+.out.show{display:block}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:6px}
+.kpi .cell{background:#101018;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px;text-align:center}
+.kpi .v{font-family:'Orbitron';font-size:21px;color:var(--gold)}
+.kpi .l{font-size:9px;letter-spacing:1.4px;color:rgba(255,255,255,.45);margin-top:5px;text-transform:uppercase}
+.kpi .d{font-size:10.5px;margin-top:5px;color:rgba(255,255,255,.4)}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.8px}
+th{text-align:left;font-family:'Orbitron';font-size:8.5px;letter-spacing:1.6px;color:rgba(255,255,255,.45);padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.1)}
+td{padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;font-family:'Orbitron';font-size:10px;letter-spacing:1.5px;padding:11px 20px;border-radius:9px;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+footer{text-align:center;margin-top:50px;font-size:11px;color:rgba(255,255,255,.3);line-height:1.8}
+</style>
+</head>
+<body>
+<nav><a href="index.html">HOME</a><a href="master.html">MASTER</a><a href="command.html">COMMAND</a><a href="ubg.html">U.B.G</a><a href="enochtu.html">ENOCHTU</a><a href="shop.html">SHOP</a><a href="contests.html">CONTESTS</a><a href="epk.html">PRESS KIT</a></nav>
+
+<header>
+<div class="eyebrow">IAM ME ENTERTAINMENT — OPERATIONS</div>
+<h1>OGX3 <span>COMMAND CENTER</span></h1>
+<div class="sub">Nine working tools. Everything saves on your own device. Nothing here asks for a password, and nothing sends data anywhere.</div>
+<div class="statuses">
+<span class="sp ok">LINKEDIN LIVE</span>
+<span class="sp ok">SITE LIVE</span>
+<span class="sp ok">SMART LINKS LIVE</span>
+<span class="sp block">X NEEDS CREDITS</span>
+<span class="sp block">PITCHES NEED EMAIL</span>
+</div>
+</header>
+
+<div class="wrap">
+<div class="grid">
+
+<!-- 1 ENOCHTU POD BUILDER -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">01</div><h3>ENOCHTU POD BUILDER</h3>
+<p>Build an episode pod: lore beat, set piece, cliffhanger. Generates the structure you paste into a visualizer brief.</p>
+<div class="panel">
+<label>Episode</label><input id="pod-ep" value="Episode 1 — The Storm">
+<label>Lore beat (what the world learns)</label><textarea id="pod-lore">Enochtu is named before he understands what the name costs.</textarea>
+<label>Set piece (the visual moment)</label><textarea id="pod-set">Storm breaks over the city, gold light fractures through the clouds in Merkaba geometry.</textarea>
+<label>Cliffhanger</label><textarea id="pod-cliff">The Eye opens. He is seen before he is ready to be seen.</textarea>
+<button onclick="event.stopPropagation();podBuild()">GENERATE POD</button>
+<div class="out" id="pod-out"></div>
+</div>
+</div>
+
+<!-- 2 FACE LOCK GATE -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">02</div><h3>C.MORPHING FACE LOCK GATE</h3>
+<p>The identity gate. Nothing ships until every lock holds. Checks save automatically.</p>
+<div class="panel" id="gate-panel">
+<div class="check"><input type="checkbox" data-k="g1"><span>Locked anime identity only — no photoreal, no live-action likeness</span></div>
+<div class="check"><input type="checkbox" data-k="g2"><span>Consistent character face across every keyframe and cover</span></div>
+<div class="check"><input type="checkbox" data-k="g3"><span>Gold (#D4AF37) accent present, charcoal base, no third accent colour</span></div>
+<div class="check"><input type="checkbox" data-k="g4"><span>Merkaba or storm geometry present as the spine motif</span></div>
+<div class="check"><input type="checkbox" data-k="g5"><span>Clean version available (explicit: NO) for radio and sync</span></div>
+<div class="check"><input type="checkbox" data-k="g6"><span>Story-first copy: no genre or label framing in the first line</span></div>
+<div class="out" id="gate-out"></div>
+</div>
+</div>
+
+<!-- 3 TOKEN KPI TRACKER -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">03</div><h3>TOKEN KPI TRACKER</h3>
+<p>Log verified numbers only. Shows the delta against your last snapshot and the distance to the milestone.</p>
+<div class="panel">
+<div class="row">
+<div><label>Streams (dashboard)</label><input id="kpi-s" type="number" placeholder="847"></div>
+<div><label>Followers</label><input id="kpi-f" type="number" placeholder="0"></div>
+<div><label>Radio spins</label><input id="kpi-r" type="number" placeholder="89"></div>
+<div><label>Revenue $</label><input id="kpi-m" type="number" placeholder="0"></div>
+</div>
+<button onclick="event.stopPropagation();kpiSave()">SAVE SNAPSHOT</button>
+<button class="ghost" onclick="event.stopPropagation();kpiReset()">CLEAR HISTORY</button>
+<div class="out show" id="kpi-out"></div>
+</div>
+</div>
+
+<!-- 4 SOVEREIGN -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">04</div><h3>SOVEREIGN OGX3</h3>
+<p>The doctrine. What this brand will and will not do, in plain language. Copy it into any contract conversation.</p>
+<div class="panel">
+<button onclick="event.stopPropagation();sov()">GENERATE DOCTRINE</button>
+<div class="out" id="sov-out"></div>
+</div>
+</div>
+
+<!-- 5 LEPTON ROUTING -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">05</div><h3>LEPTON ROUTING</h3>
+<p>Pick a content type and get the exact routing: which channel, what it costs, what it needs first.</p>
+<div class="panel">
+<label>Content type</label>
+<select id="route-sel" onchange="routeShow()">
+<option value="release">Release or catalog news</option>
+<option value="story">Story / lore piece</option>
+<option value="flag">Flagship announcement</option>
+<option value="pitch">Curator or radio pitch</option>
+<option value="visual">Visualizer or anime teaser</option>
+<option value="merch">Merch or shop</option>
+</select>
+<div class="out show" id="route-out"></div>
+</div>
+</div>
+
+<!-- 6 FUSION BOARD -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">06</div><h3>FUSION COLLAB BOARD</h3>
+<p>Real collab targets and where each one stands. Stage saves automatically.</p>
+<div class="panel" id="fusion-panel"></div>
+</div>
+
+<!-- 7 ROC CHECKLIST -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">07</div><h3>ROC NATION CHECKLIST</h3>
+<p>The exact release gate before anything gets delivered. Every box was a real rejection reason once.</p>
+<div class="panel" id="roc-panel">
+<div class="check"><input type="checkbox" data-k="r1"><span>Track titles in Standard Case — no ALL CAPS anywhere</span></div>
+<div class="check"><input type="checkbox" data-k="r2"><span>Explicit flagged correctly (radio and sync depend on it)</span></div>
+<div class="check"><input type="checkbox" data-k="r3"><span>Cover art 3000 x 3000, no logos or social handles burned in</span></div>
+<div class="check"><input type="checkbox" data-k="r4"><span>Artist, label, copyright owner, copyright year all match</span></div>
+<div class="check"><input type="checkbox" data-k="r5"><span>Territories set to World unless there is a reason not to</span></div>
+<div class="check"><input type="checkbox" data-k="r6"><span>Release date at least 2 weeks out so playlisting can catch it</span></div>
+<div class="check"><input type="checkbox" data-k="r7"><span>Status reads Delivered on every store before you promote it</span></div>
+<div class="check"><input type="checkbox" data-k="r8"><span>Smart link created and tested on a phone</span></div>
+<div class="check"><input type="checkbox" data-k="r9"><span>One-sheet and funnel page live before the first pitch goes out</span></div>
+<div class="out" id="roc-out"></div>
+</div>
+</div>
+
+<!-- 8 PRE-SALE FINANCING -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">08</div><h3>PRE-SALE FINANCING</h3>
+<p>Real unit economics. What a drop actually clears after cost and fees.</p>
+<div class="panel">
+<div class="row">
+<div><label>Units</label><input id="pf-u" type="number" value="25"></div>
+<div><label>Price per unit $</label><input id="pf-p" type="number" value="148"></div>
+<div><label>Your cost per unit $</label><input id="pf-c" type="number" value="38"></div>
+<div><label>Payment fee %</label><input id="pf-f" type="number" value="3"></div>
+<div><label>Shipping per unit $</label><input id="pf-s" type="number" value="8"></div>
+<div><label>Ad spend $</label><input id="pf-a" type="number" value="0"></div>
+</div>
+<button onclick="event.stopPropagation();pfCalc()">CALCULATE</button>
+<div class="out" id="pf-out"></div>
+</div>
+</div>
+
+<!-- 9 90 DAY PLAN -->
+<div class="tool" onclick="toggle(this)">
+<div class="n">09</div><h3>90-DAY PLAN — NOV 10 TO FEB 8</h3>
+<p>Live countdown to every committed date, computed against today.</p>
+<div class="panel"><div class="out show" id="plan-out"></div></div>
+</div>
+
+</div>
+
+<footer>
+OGX3 COMMAND CENTER — I AM ME ENTERTAINMENT LLC<br>
+Verified-metrics doctrine applies: numbers come from dashboards, never estimates. Data stays in this browser.
+</footer>
+</div>
+<div class="toast" id="toast">SAVED</div>
+
+<script>
+const LS = {
+  get(k,d){try{return JSON.parse(localStorage.getItem('ogx3_'+k)) ?? d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem('ogx3_'+k, JSON.stringify(v))}catch(e){}}
+};
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1600);}
+function toggle(el){
+  document.querySelectorAll('.tool.open').forEach(t=>{if(t!==el)t.classList.remove('open')});
+  el.classList.toggle('open');
+}
+
+/* 1 POD */
+function podBuild(){
+  const ep=document.getElementById('pod-ep').value, lore=document.getElementById('pod-lore').value,
+        set=document.getElementById('pod-set').value, cliff=document.getElementById('pod-cliff').value;
+  const out=document.getElementById('pod-out');
+  out.textContent =
+`ENOCHTU POD — ${ep}
+
+LORE BEAT
+${lore}
+
+SET PIECE
+${set}
+
+CLIFFHANGER
+${cliff}
+
+VISUALIZER BRIEF
+Locked anime identity. Charcoal base, gold accent only. Merkaba or storm geometry as the spine motif.
+Opening frame holds the set piece for 4 seconds before motion. End on the cliffhanger with no text overlay.
+
+COPY
+Line 1 carries the story, never the genre. Close with the Enochtu page.`;
+  out.classList.add('show');
+  toast('POD BUILT');
+}
+
+/* 2 GATE */
+function gateCheck(){
+  const boxes=[...document.querySelectorAll('#gate-panel input[type=checkbox]')];
+  const done=boxes.filter(b=>b.checked).length, total=boxes.length;
+  const out=document.getElementById('gate-out');
+  out.classList.add('show');
+  if(done===total){
+    out.textContent='GATE OPEN — '+done+'/'+total+' locks held. This content is cleared to ship.';
+    out.style.borderColor='rgba(123,228,155,.45)';
+  }else{
+    out.textContent='GATE CLOSED — '+done+'/'+total+' locks held. '+(total-done)+' still open. Nothing ships until all hold.';
+    out.style.borderColor='rgba(232,139,139,.45)';
+  }
+}
+
+/* 3 KPI */
+function kpiSave(){
+  const s=+document.getElementById('kpi-s').value||0, f=+document.getElementById('kpi-f').value||0,
+        r=+document.getElementById('kpi-r').value||0, m=+document.getElementById('kpi-m').value||0;
+  const hist=LS.get('kpi',[]);
+  hist.push({t:Date.now(),s,f,r,m});
+  LS.set('kpi',hist);
+  kpiRender();
+  toast('SNAPSHOT SAVED');
+}
+function kpiReset(){LS.set('kpi',[]);kpiRender();toast('HISTORY CLEARED');}
+function kpiRender(){
+  const hist=LS.get('kpi',[]), out=document.getElementById('kpi-out');
+  if(!hist.length){out.textContent='No snapshots yet. Log the dashboard numbers and this becomes your only honest trend line.';return;}
+  const cur=hist[hist.length-1], prev=hist.length>1?hist[hist.length-2]:null;
+  const d=(a,b)=>prev?(a-b>=0?'+':'')+(a-b):'—';
+  out.innerHTML=
+  '<div class="kpi">'+
+  `<div class="cell"><div class="v">${cur.s}</div><div class="l">Streams</div><div class="d">${d(cur.s,prev?prev.s:0)} vs last</div></div>`+
+  `<div class="cell"><div class="v">${cur.f}</div><div class="l">Followers</div><div class="d">${d(cur.f,prev?prev.f:0)} vs last</div></div>`+
+  `<div class="cell"><div class="v">${cur.r}</div><div class="l">Radio spins</div><div class="d">${d(cur.r,prev?prev.r:0)} vs last</div></div>`+
+  `<div class="cell"><div class="v">$${cur.m}</div><div class="l">Revenue</div><div class="d">${d(cur.m,prev?prev.m:0)} vs last</div></div>`+
+  '</div>'+
+  `<div style="margin-top:14px;font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.8">Milestone: 10,000 streams — ${Math.max(0,10000-cur.s)} to go (${Math.min(100,(cur.s/10000*100)).toFixed(1)}%).<br>Milestone: 1,000 followers — ${Math.max(0,1000-cur.f)} to go (${Math.min(100,(cur.f/1000*100)).toFixed(1)}%).<br>Snapshots logged: ${hist.length}.</div>`;
+}
+
+/* 4 SOVEREIGN */
+function sov(){
+  const out=document.getElementById('sov-out');
+  out.classList.add('show');
+  out.textContent = `SOVEREIGN OGX3 — THE DOCTRINE
+
+1. The catalog is the asset. 33 tracks, 33 chapters, one walk from darkness to light.
+2. Story first, always. The first line carries the story, never the genre or a label.
+3. Verified numbers only. A dashboard or nothing. No estimates, no rounded-up claims.
+4. The name is ours. No affiliation with any label, studio, or platform is claimed, implied, or hinted.
+5. Ownership stays here. Masters, publishing, and the identity are not signed away in a message.
+6. Contracts go to a lawyer before a signature, every time, no exceptions.
+7. Personal information never goes into a submission form. Phone, SSN, and payment details stay off any application.
+8. Money moves only with explicit approval. No ad spend, fee, or subscription without a yes in writing.
+9. The audience we own is the list. Every page and post routes to the Inner Circle.
+10. Faith greater than fear. If a move needs fear to justify it, the move is wrong.`;
+  toast('DOCTRINE GENERATED');
+}
+
+/* 5 ROUTING */
+const ROUTES={
+  release:{t:'RELEASE OR CATALOG NEWS',r:[
+    ['LinkedIn','Free, unmetered, always first','Ready now'],
+    ['Site pages','U.B.G, EPK, one-sheet updated before the post','Ready now'],
+    ['Telegram to owner','IG and TikTok captions in EN/JP/BR','Ready now'],
+    ['X','40 credits per post — not for routine news','Needs credits']]},
+  story:{t:'STORY OR LORE PIECE',r:[
+    ['LinkedIn','Long-form tolerance is highest here','Ready now'],
+    ['Enochtu page','Bridge every lore post to the funnel','Ready now'],
+    ['IG and TikTok','Manual post, story-first caption','Owner posts'],
+    ['X','Only if it is genuinely novel','Needs credits']]},
+  flag:{t:'FLAGSHIP ANNOUNCEMENT',r:[
+    ['X','Worth the 40 credits — one per day maximum','Needs credits'],
+    ['LinkedIn','Same beat, professional framing','Ready now'],
+    ['IG and TikTok','Captions to owner, pair with a keyframe','Owner posts']]},
+  pitch:{t:'CURATOR OR RADIO PITCH',r:[
+    ['Email','8 verified stations plus Rapzilla','BLOCKED — connect email'],
+    ['One-sheet','Print to PDF, attach to every pitch','Ready now'],
+    ['Rapzilla','Needs MP3 attached, YouTube link, 1000x1000 art, photo','Needs assets']]},
+  visual:{t:'VISUALIZER OR ANIME TEASER',r:[
+    ['YouTube','Brand account kit built and waiting','Needs launch'],
+    ['IG and TikTok','Shorts cut from the same keyframes','Owner posts'],
+    ['LinkedIn','One frame plus the story line','Ready now']]},
+  merch:{t:'MERCH OR SHOP',r:[
+    ['Shop page','IAMME collection, coming-soon gated','Ready now'],
+    ['LinkedIn','Only if there is a real offer behind it','Ready now'],
+    ['Inner Circle','First access belongs to the list','Ready now']]}};
+function routeShow(){
+  const k=document.getElementById('route-sel').value, o=ROUTES[k], out=document.getElementById('route-out');
+  out.innerHTML='<div style="font-family:Orbitron;font-size:11px;letter-spacing:2px;color:#D4AF37;margin-bottom:10px">'+o.t+'</div>'+
+    '<table><tr><th>Channel</th><th>Why</th><th>Status</th></tr>'+
+    o.r.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td></tr>`).join('')+'</table>';
+}
+
+/* 6 FUSION */
+const FUSION=[
+  ['Prosperity Studios','Faith-based Black-led 2D anime — closest peer in the world','Instagram DM','Not contacted'],
+  ['VX Animation','Nigerian studio, Black Rain, Afrofuturist short','Studio channels','Not contacted'],
+  ['Blerdz and Nerdz','Black anime community, high engagement','TikTok','Engage first'],
+  ['Tracy Allen','Black anime character debates — hottest format in the lane','TikTok / IG','Engage first'],
+  ['Nerding Priest','Representation in anime content','TikTok','Engage first'],
+  ['LeSean Thomas','The road already paved — reference, not a pitch target','Industry','Respect only']
+];
+function fusionRender(){
+  const stages=['Not contacted','Engage first','Respect only','Contacted','In conversation','Collab agreed'];
+  const saved=LS.get('fusion',{});
+  const el=document.getElementById('fusion-panel');
+  el.innerHTML='<table><tr><th>Target</th><th>Why</th><th>Route</th><th>Stage</th></tr>'+
+    FUSION.map((f,i)=>`<tr><td>${f[0]}</td><td style="font-size:11.8px;opacity:.75">${f[1]}</td><td style="font-size:11.8px;opacity:.6">${f[2]}</td><td>
+    <select onchange="fusionSet(${i},this.value)" style="padding:7px;font-size:11.5px">
+    ${stages.map(s=>`<option ${((saved[i]??f[3])===s)?'selected':''}>${s}</option>`).join('')}
+    </select></td></tr>`).join('')+'</table>';
+}
+function fusionSet(i,v){const s=LS.get('fusion',{});s[i]=v;LS.set('fusion',s);toast('STAGE SAVED');}
+
+/* 7 ROC */
+function rocCheck(){
+  const boxes=[...document.querySelectorAll('#roc-panel input[type=checkbox]')];
+  const done=boxes.filter(b=>b.checked).length,total=boxes.length;
+  const out=document.getElementById('roc-out');out.classList.add('show');
+  if(done===total){out.textContent='CLEARED — '+done+'/'+total+'. This release can be delivered.';out.style.borderColor='rgba(123,228,155,.45)';}
+  else{out.textContent='HOLD — '+done+'/'+total+'. '+(total-done)+' gate item(s) still open. Delivery now invites a rejection.';out.style.borderColor='rgba(232,139,139,.45)';}
+}
+
+/* 8 PRE-SALE */
+function pfCalc(){
+  const u=+document.getElementById('pf-u').value||0, p=+document.getElementById('pf-p').value||0,
+        c=+document.getElementById('pf-c').value||0, f=+document.getElementById('pf-f').value||0,
+        s=+document.getElementById('pf-s').value||0, a=+document.getElementById('pf-a').value||0;
+  const gross=u*p, fees=gross*(f/100), cogs=u*c, ship=u*s, net=gross-fees-cogs-ship-a;
+  const margin=gross>0?(net/gross*100):0;
+  const out=document.getElementById('pf-out');out.classList.add('show');
+  out.innerHTML=`<table>
+  <tr><td>Gross revenue</td><td>$${gross.toFixed(2)}</td></tr>
+  <tr><td>Payment fees (${f}%)</td><td>−$${fees.toFixed(2)}</td></tr>
+  <tr><td>Product cost</td><td>−$${cogs.toFixed(2)}</td></tr>
+  <tr><td>Shipping</td><td>−$${ship.toFixed(2)}</td></tr>
+  <tr><td>Ad spend</td><td>−$${a.toFixed(2)}</td></tr>
+  <tr><th>Net before tax</th><th style="color:#D4AF37">$${net.toFixed(2)} (${margin.toFixed(1)}%)</th></tr>
+  <tr><td>Break-even units</td><td>${p>0?Math.ceil((a+c*u+ship)/Math.max(1,(p*(1-f/100)-c-s))):'—'}</td></tr>
+  </table>
+  <div style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);line-height:1.7">Streaming comparison: 10,000 streams pays roughly $32. This drop at these numbers pays ${(net/Math.max(0.01,32)).toFixed(0)} times that. Merch and direct sales are the revenue, streaming is the proof.</div>`;
+}
+
+/* 9 PLAN */
+const PLAN=[
+  ['2026-11-13','Friday giveaway — Diamond Water hoodie'],
+  ['2026-11-15','33 Days finale — the vault'],
+  ['2026-11-16','Winner-feature post + pitch packet out'],
+  ['2026-11-30','Radio and curator push closes for the month'],
+  ['2026-12-01','Genesis Day'],
+  ['2027-01-01','Genesis Day'],
+  ['2027-01-15','Mid-quarter metrics review'],
+  ['2027-02-01','Genesis Day'],
+  ['2027-02-08','90-day close — full verified review']
+];
+function planRender(){
+  const now=new Date(); const out=document.getElementById('plan-out');
+  out.innerHTML='<table><tr><th>Date</th><th>Commitment</th><th>Countdown</th></tr>'+
+  PLAN.map(([d,label])=>{
+    const dt=new Date(d+'T12:00:00'); const days=Math.ceil((dt-now)/86400000);
+    const c=days>0?days+' days':(days===0?'TODAY':'passed');
+    return `<tr><td>${dt.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</td><td>${label}</td><td style="color:${days>0?'#D4AF37':'rgba(255,255,255,.35)'}">${c}</td></tr>`;
+  }).join('')+'</table>';
+}
+
+/* init */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('#gate-panel input, #roc-panel input').forEach(b=>{
+    b.checked = LS.get('chk_'+b.dataset.k,false);
+    b.addEventListener('click',e=>e.stopPropagation());
+    b.addEventListener('change',()=>{
+      LS.set('chk_'+b.dataset.k,b.checked);
+      gateCheck();rocCheck();
+    });
+  });
+  document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('click',e=>e.stopPropagation()));
+  gateCheck();rocCheck();kpiRender();routeShow();fusionRender();planRender();
+});
+</script>
+</body>
+</html>
